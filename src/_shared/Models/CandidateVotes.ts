@@ -1,6 +1,6 @@
 interface CandidateVotes {
   candidateId: number;
-  votes: number;
+  voteCount: number;
 }
 
 export default CandidateVotes;

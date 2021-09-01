@@ -53,7 +53,7 @@ const ResultsPage: React.FC = () => {
                 {getCandidateNameFromId(vr.candidateId)}
               </TableCell>
               <TableCell>
-                {vr.votes}
+                {vr.voteCount}
               </TableCell>
             </TableRow>
           ))}
