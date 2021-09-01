@@ -64,7 +64,7 @@ const VoteCard: React.FC<VoteCardProps> = ({ candidate }) => {
         variant="outlined"
         color="primary"
         onClick={handleOnVoteButtonClick}
-        disabled={voteHasBeenCasted || voteIsBeingCasted}
+        disabled={voteIsBeingCasted}
       >
         {!voteIsBeingCasted && !voteHasBeenCasted && !voteHasFailed && (
           <>
