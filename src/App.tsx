@@ -6,31 +6,35 @@ import FrontPage from './Frontpage/FrontPage';
 import VotePage from './Vote/Pages/VotePage';
 import ResultsPage from './Results/Pages/ResultsPage';
 import Layout from './_shared/Layout/MainLayout';
-import CandidatesProvider from "./_shared/Providers/CandidatesProvider";
+import CandidatesProvider from './_shared/Providers/CandidatesProvider';
+import AuthenticationGuard from './_shared/Providers/AuthenticationGuard';
 
 const App: React.FC = () => {
   const { accounts, instance } = useMsal();
   const account = useAccount(accounts[0] || {});
 
   useEffect(() => {
-    if(account) {
+    if (account) {
       instance.setActiveAccount(account);
     }
   }, [instance, account]);
 
   return (
-    <BrowserRouter>
-      <CandidatesProvider>
-        <Layout>
-          <Switch>
-            <Route path="/" exact component={FrontPage} />
-            <Route path="/vote" component={VotePage} />
-            <Route path="/results" component={ResultsPage} />
-          </Switch>
-        </Layout>
-      </CandidatesProvider>
-    </BrowserRouter>
+    <AuthenticationGuard>
+      <BrowserRouter>
+        <CandidatesProvider>
+          <Layout>
+            <Switch>
+              <Route path="/" exact component={FrontPage} />
+              <Route path="/vote" component={VotePage} />
+              <Route path="/results" component={ResultsPage} />
+            </Switch>
+          </Layout>
+        </CandidatesProvider>
+      </BrowserRouter>
+    </AuthenticationGuard>
+
   );
-}
+};
 
 export default App;
