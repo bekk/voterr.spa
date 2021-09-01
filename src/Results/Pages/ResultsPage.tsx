@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 
-import VoteResult from '../../_shared/Models/VoteResult';
+import CandidateVotes from '../../_shared/Models/CandidateVotes';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
 
-import votemeisterHttpClient from '../../_shared/HttpClients/VotemeisterHttpClient';
+import votesHttpClient from '../../_shared/HttpClients/VotesHttpClient';
+import CandidatesContext from '../../_shared/Contexts/CandidatesContext';
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -16,12 +17,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ResultsPage: React.FC = () => {
-  const [voteResults, setVoteResults] = useState<Array<VoteResult>>();
+  const [candidateResults, setCandidateResults] = useState<Array<CandidateVotes>>();
+  const candidates = useContext(CandidatesContext);
   const classes = useStyles();
 
+  const getCandidateNameFromId = (candidateId: number) => {
+    return candidates.find(c => c.id === candidateId)?.name ?? "Ukjent";
+  }
+
   useEffect(() => {
-    votemeisterHttpClient.get<Array<VoteResult>>("/api/results")
-      .then(result => setVoteResults(result.data));
+    votesHttpClient.get<Array<CandidateVotes>>("/api/votes/results")
+      .then(result => setCandidateResults(result.data));
   }, []);
 
   return (
@@ -41,10 +47,10 @@ const ResultsPage: React.FC = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {voteResults?.map(vr => (
-            <TableRow key={vr.candidateName}>
+          {candidateResults?.map(vr => (
+            <TableRow key={vr.candidateId}>
               <TableCell>
-                {vr.candidateName}
+                {getCandidateNameFromId(vr.candidateId)}
               </TableCell>
               <TableCell>
                 {vr.votes}

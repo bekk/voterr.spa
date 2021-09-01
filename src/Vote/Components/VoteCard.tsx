@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Candidate from '../../_shared/Models/Candidate';
 import Vote from '../../_shared/Models/Vote';
 
-import votemeisterHttpClient from '../../_shared/HttpClients/VotemeisterHttpClient';
+import votesHttpClient from '../../_shared/HttpClients/VotesHttpClient';
 
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -47,7 +47,7 @@ const VoteCard: React.FC<VoteCardProps> = ({ candidate }) => {
 
   const handleOnVoteButtonClick = async () => {
     setVoteIsBeingCasted(true);
-    await votemeisterHttpClient.post<Vote>('/api/votes', { Candidate: candidate.name })
+    await votesHttpClient.post<Vote>('/api/votes', { candidateId: candidate.id })
       .then(() => setVoteHasBeenCasted(true))
       .catch(() => setVoteHasFailed(true))
       .finally(() => setVoteIsBeingCasted(false));

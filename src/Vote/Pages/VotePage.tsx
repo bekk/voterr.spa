@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, {useContext} from 'react';
 
-import votemeisterHttpClient from '../../_shared/HttpClients/VotemeisterHttpClient';
-import Candidate from '../../_shared/Models/Candidate';
+import CandidatesContext from '../../_shared/Contexts/CandidatesContext';
 import VoteCard from '../Components/VoteCard';
 
 import Typography from '@material-ui/core/Typography';
@@ -17,12 +16,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const VotePage: React.FC = () => {
-  const [candidates, setCandidates] = useState<Array<Candidate>>();
+  const candidates = useContext(CandidatesContext);
   const classes = useStyles();
-
-  useEffect(() => {
-    votemeisterHttpClient.get<Array<Candidate>>('/api/candidates').then((result) => setCandidates(result.data));
-  }, []);
 
   return (
     <>
