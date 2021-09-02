@@ -58,6 +58,9 @@ const Layout: React.FC = ({ children }) => {
             <Link component={RouterLink} to="/results" variant="button" color="textPrimary" className={classes.link}>
               Results
             </Link>
+            <Link component={RouterLink} to="/myVotes" variant="button" color="textPrimary" className={classes.link}>
+              My votes
+            </Link>
           </nav>
           <AuthenticatedTemplate>
             <ProfileInfo />
